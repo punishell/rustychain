@@ -3,9 +3,8 @@
 Damn vulnerable Rust Chain.
 
 ### TODO
-
-- p2p
 - accounts
 - transactions signatures
-- consensus 
+- p2p
+- consensus, execution, validation etc
 - wallets
