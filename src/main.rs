@@ -1,4 +1,5 @@
 use chrono::prelude::*;
+use rand::Rng;
 use libp2p::{
     core::upgrade,
     futures::StreamExt,
@@ -52,13 +53,18 @@ impl Block {
         }
     }
         fn genesis() -> Self{
+            let time_now = Utc::now().timestamp();
+            let genesis_hash = String::from("genesis");
+            let data = String::from("genesis!");
+            let nonce = rand::random();
+            let hash = calculate_hash(0, time_now , &genesis_hash, &data, nonce);
         Block {
             id: 0,
-            timestamp: Utc::now().timestamp(),
-            previous_hash: String::from("genesis"),
-            data: String::from("genesis!"),
-            nonce: 2836,
-            hash: "0000f816a87f806bb0073dcf026a64fb40c946b5abee2573702828694d5b4c43".to_string(),
+            timestamp: time_now,
+            previous_hash: genesis_hash,
+            data: data,
+            nonce: nonce,
+            hash: String::from_utf8_lossy(&hash).to_string(),
             transactions: Vec::new()
         }
     }
@@ -142,5 +148,6 @@ fn test_genesis_block() {
     //create blockchain
 let blockchain = vec![Block::genesis()];
 assert_eq!(blockchain[0].id , 0);
+
 }
 }
